@@ -23,10 +23,11 @@
   (lambda ()
     (elpy-mode 1)
     (abbrev-mode 1)
-    (auto-fill-mode 1)
-    (jedi-mode 1)
-    (elpy-set-backend "jedi")))
-
+    (jedi-mode t)
+    (jedi:setup)
+    (setq jedi:complete-on-dot t)
+    (elpy-set-backend "jedi")
+  ))
 
 ;;; Testing
 (require 'nose)

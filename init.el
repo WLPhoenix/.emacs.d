@@ -11,7 +11,7 @@
 
 (defun load-if-exists (file)
   "Load file if it exists"
-  (unless (file-exists-p file) (load-file file)))
+  (when (file-exists-p file) (load-file file)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                  Init files                                ;;
@@ -67,3 +67,4 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;(unless (and (fboundp 'server-running-p) (server-running-p))
 ;  (server-start))
+(put 'upcase-region 'disabled nil)

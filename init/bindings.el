@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Bindings                                   ;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Windowing
 (global-set-key (kbd "C-1") 'delete-other-windows)
@@ -26,27 +26,5 @@
 (global-set-key (kbd "C-x m o") 'org-mode)
 (global-set-key (kbd "C-x m p") 'python-mode)
 (global-set-key (kbd "C-x m s") 'shell-script-mode)
+(global-set-key (kbd "C-x m t") 'text-mode)
 (global-set-key (kbd "C-x m w") 'whitespace-mode)
-
-(defun set-nose-bindings()
-  (interactive)
-  (local-set-key (kbd "C-c n a") 'nosetests-all)
-  (local-set-key (kbd "C-c n f") 'nosetests-failed)
-  (local-set-key (kbd "C-c n m") 'nosetests-module)
-  (local-set-key (kbd "C-c n n") 'nosetests-again)
-  (local-set-key (kbd "C-c n o") 'nosetests-one)
-  (local-set-key (kbd "C-c n p a") 'nosetests-pdb-all)
-  (local-set-key (kbd "C-c n p m") 'nosetests-pdb-module)
-  (local-set-key (kbd "C-c n p o") 'nosetests-pdb-one))
-
-(defun unset-nose-bindings()
-  (interactive)
-  (local-unset-key (kbd "C-x m"))
-  (local-unset-key (kbd "C-c n a"))
-  (local-unset-key (kbd "C-c n f"))
-  (local-unset-key (kbd "C-c n m"))
-  (local-unset-key (kbd "C-c n n"))
-  (local-unset-key (kbd "C-c n o"))
-  (local-unset-key (kbd "C-c n p a"))
-  (local-unset-key (kbd "C-c n p m"))
-  (local-unset-key (kbd "C-c n p o")))
