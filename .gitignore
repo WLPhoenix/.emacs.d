@@ -1,2 +1,14 @@
+
+eproject.lst
+
+# Directories
+auto-save-list/
+backups/
+eshell/
+elpa/
+private/
+tramp/
+url/
+
 # Compiled
 *.elc
