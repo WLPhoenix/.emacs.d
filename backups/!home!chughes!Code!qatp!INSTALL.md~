@@ -1,0 +1,24 @@
+
+Ubuntu:
+sudo apt-get update
+sudo apt-get install
+
+Redhat:
+
+
+Mac:
+brew install
+
+
+
+easy_install pip
+
+pip install virtualenvwrapper.sh
+source virtualenvwrapper.sh
+mkvirtualenv qatp
+workon qatp
+
+export CFLAGS="-Qunused-arguments"
+export CPPFLAGS="-Qunused-arguments"
+
+pip install -r requirements.txt

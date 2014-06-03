@@ -1,0 +1,6 @@
+#!/bin/sh
+
+xrandr \
+--output LVDS-0 --auto --rotate normal --pos 0x0 \
+--output VGA-0 --primary --auto --rotate normal --left-of LVDS-0 \
+--output DP-3 --auto --rotate normal --left-of VGA-0

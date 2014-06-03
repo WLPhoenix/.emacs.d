@@ -1,0 +1,15 @@
+fr-gigaword-1.8g = {
+    "bucket": "drs-sequence-files",
+    "key": "fre-gigaword-1.8G.seq",
+    "override_properties": False,
+    "language": "french",
+    "datatype": "sequence_file",
+    }
+
+fr-gigaword-2m = {
+    "bucket": "drs-sequence-files",
+    "key": "fre-gigaword-2M.seq",
+    "override_properties": False,
+    "language": "french",
+    "datatype": "sequence_file",
+    }

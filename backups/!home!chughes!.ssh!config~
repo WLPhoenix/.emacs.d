@@ -1,0 +1,22 @@
+# contents of $HOME/.ssh/config
+Host stackd
+    HostName stackd.qa.digitalreasoning.com
+    User stackdio
+
+Host stackd-rc
+    HostName stackd-rc.qa.digitalreasoning.com
+    User stackdio
+
+Host stackd.corp
+    HostName stackd.corp.digitalreasoning.com
+    User stackdio
+
+Host devint
+    HostName devint.qa.digitalreasoning.com
+    User root
+    IdentityFile ~/.ssh/pems/qatp-coordinator-dev.pem
+
+Host integration
+    HostName int.qa.digitalreasoning.com
+    User root
+    IdentityFile ~/.ssh/pems/qatp-coordinator-integration.pem

@@ -23,9 +23,15 @@
     nose
     nose-mode
 
+    ;; Java
+    cedit
+    semantic
+    malabar-mode
+
     ;; Assorted languages
     groovy-mode
     haskell-mode
+
     zossima ;ruby
 ))
 
@@ -39,6 +45,9 @@
 	  ("melpa" . "http://melpa.milkbox.net/packages/")))
   (package-refresh-contents)
   (package-initialize)
+  (dolist (p require-packages)
+    (when (not (package-installed-p p))
+      (package-install p)))
   (mapcar 'install-if-not require-packages)
   (package-initialize)
 )

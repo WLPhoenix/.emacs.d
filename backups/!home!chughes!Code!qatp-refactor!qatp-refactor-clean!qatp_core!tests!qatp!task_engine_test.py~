@@ -1,0 +1,159 @@
+import unittest
+from mock import Mock, patch
+
+from qatp_core.qatp import task_engine
+from qatp_core.qatp.exceptions import IllegalQueueStateException
+
+
+class TaskEngineTests(unittest.TestCase):
+
+    def setUp(self):
+        global task_engine
+        task_engine = reload(task_engine)
+
+    @patch('qatp_core.qatp.task_engine.cleanup_run')
+    @patch('qatp_core.qatp.task_engine.execute_task')
+    @patch('qatp_core.qatp.task_engine._get_suite_manager')
+    def test_run_workflow(self, get_suite_manager, execute_task, cleanup_run):
+        # setup qs
+        mock_qs = Mock()
+        mock_qs.task_order = [
+            "t1",
+            "t2"
+        ]
+        mock_qs.active_task = None
+        mock_qs.jobs = {}
+
+        # setup suite_manager/returned tasks
+        task1 = Mock()
+        task2 = Mock()
+
+        mock_qs.tasks = {
+            "t1" : "t1",
+            "t2" : "t2"
+        }
+
+        suite_manager = Mock()
+        get_suite_manager.return_value = suite_manager
+
+        suite_tasks = {
+            "t1": lambda:task1,
+            "t2": lambda:task2
+        }
+        def side_effect(input):
+            return suite_tasks[input]
+        suite_manager.get_task = Mock()
+        suite_manager.get_task.side_effect = side_effect
+
+
+        # execute
+        task_engine.run_workflow(mock_qs)
+        execute_task.assert_any_call("t1", task1, mock_qs)
+        execute_task.assert_any_call("t2", task2, mock_qs)
+        self.assertTrue(cleanup_run.called)
+
+
+    @patch('qatp_core.qatp.state.RunState.load')
+    def test_load_run_state(self, load):
+        mock_qs = Mock()
+        load.return_value = mock_qs
+
+        result = task_engine._load_run_state("blah", "blah")
+        self.assertIs(result, mock_qs)
+
+    @patch('qatp_core.qatp.state.RunState.delete')
+    @patch('qatp_core.qatp.state.RunState.load')
+    def test_load_run_state_import_error(self, load, delete):
+        exception = ImportError("blah")
+        run_id = "blah"
+        load.side_effect = exception
+        try:
+            task_engine._load_run_state(run_id, "blah")
+            self.fail
+        except ImportError, e:
+            self.assertIs(e, exception)
+        delete.assert_called_with(run_id)
+
+    @patch('qatp_core.qatp.state.RunState.delete')
+    @patch('qatp_core.qatp.state.RunState.load')
+    def test_load_run_state_exception(self, load, delete):
+        exception = Exception("blah")
+        run_id = "blah"
+        load.side_effect = exception
+        try:
+            task_engine._load_run_state(run_id, "blah")
+            self.fail
+        except Exception, e:
+            self.assertIs(e, exception)
+        delete.assert_called_with(run_id)
+
+    @patch('qatp_core.qatp.state.RunState.load')
+    def test_load_run_state_no_state(self, load):
+        load.return_value = None
+
+        try:
+            task_engine._load_run_state("blah", "blah")
+            self.fail
+        except Exception, e:
+            self.assertTrue(isinstance(e, IllegalQueueStateException))
+
+
+    def test_workflow_complete(self):
+        mock_qs = Mock()
+        mock_qs.task_order = [1, 2, 3]
+        mock_qs.jobs = {
+            1: {'complete': True},
+            2: {'complete': True},
+            3: {'complete': True}
+        }
+        result = task_engine._workflow_complete(mock_qs)
+        self.assertTrue(result)
+
+
+    def test_workflow_complete_remaining(self):
+        mock_qs = Mock()
+        mock_qs.task_order = [1, 2, 3]
+        mock_qs.jobs = {
+            1: {'complete': True},
+            2: {'complete': True},
+            3: {'complete': False}
+        }
+        result = task_engine._workflow_complete(mock_qs)
+        self.assertFalse(result)
+
+    def test_workflow_complete_out_of_order(self):
+        mock_qs = Mock()
+        mock_qs.task_order = [1, 2, 3]
+        mock_qs.jobs = {
+            1: {'complete': True},
+            2: {'complete': False},
+            3: {'complete': True}
+        }
+        try:
+            task_engine._workflow_complete(mock_qs)
+            self.fail()
+        except IllegalQueueStateException:
+            pass
+
+
+    def test_run_queue_task(self):
+        mock_qs = Mock()
+        mock_qs.task_order = [1, 2, 3]
+        mock_qs.jobs = {
+            1: {'complete': True},
+            2: {'complete': False},
+            3: {'complete': True}
+        }
+        try:
+            task_engine._workflow_complete(mock_qs)
+            self.fail()
+        except IllegalQueueStateException:
+            pass
+
+
+def main():
+    unittest.main()
+
+
+if __name__ == '__main__':
+    main()

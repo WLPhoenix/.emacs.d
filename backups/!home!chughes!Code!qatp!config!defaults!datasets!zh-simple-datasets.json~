@@ -1,0 +1,31 @@
+zh-simplified-gigaword-1.3g = {
+    "bucket": "drs-sequence-files",
+    "key": "zh-simplified-gigaword-1.3g.seq",
+    "override_properties": False,
+    "language": "chinese-simplified",
+    "datatype": "sequence_file",
+    }
+
+zh-simplified-gigaword-32m =  {
+    "bucket": "drs-sequence-files",
+    "key": "zh-simplified-gigaword-32m.seq",
+    "override_properties": False,
+    "language": "chinese-simplified",
+    "datatype": "sequence_file",
+    }
+
+zh-simplified-gigaword-156k =  {
+    "bucket": "drs-sequence-files",
+    "key": "zh-simplified-gigaword-156k.seq",
+    "override_properties": False,
+    "language": "chinese-simplified",
+    "datatype": "sequence_file",
+    }
+
+zh-simplified-gigaword-123m =  {
+    "bucket": "drs-sequence-files",
+    "key": "zh-simplified-gigaword-123m.seq",
+    "override_properties": False,
+    "language": "chinese-simplified",
+    "datatype": "sequence_file",
+    }

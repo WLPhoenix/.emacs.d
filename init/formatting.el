@@ -27,3 +27,18 @@
     (goto-char (point-min))
     (while (search-forward "\\'" nil t) (replace-match "'" nil t))
 ))
+
+(defun newline-with-drop-brace ()
+  "If the character before the point is a brace, drop it to the next"
+  "line before 'newline-and-indent"
+  (interactive)
+  (delete-horizontal-space)
+  (if (string= (string (preceding-char)) "{")
+    (progn
+	  (backward-char 1)
+	  (newline-and-indent)
+	  (forward-char 1)
+    )
+	'nil)
+  (newline-and-indent)
+)

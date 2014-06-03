@@ -1,0 +1,40 @@
+                                                 _
+  _ __   ___  ___  ___       _ __ ___   ___   __| | ___
+ | '_ \ / _ \/ __|/ _ \_____| '_ ` _ \ / _ \ / _` |/ _ \
+ | | | | (_) \__ \  __/_____| | | | | | (_) | (_| |  __/
+ |_| |_|\___/|___/\___|     |_| |_| |_|\___/ \__,_|\___|
+
+
+Commentary
+==========
+
+This modules defines a minor mode intended to ease running tests
+with 'nosetest'.
+
+This is an exercice and the rationale behind it is to be able to
+provide keybindings for running tests, but only for buffers that
+actually contain tests.
+
+By default it defines the keybindings:
+
+  C-c n a   nosetests-all
+  C-c n m   nosetests-module
+  C-c n .   nosetests-one
+  C-c n p a nosetests-pdb-all
+  C-c n p m nosetests-pdb-module
+  C-c n p . nosetests-pdb-one
+
+The keymap can be easily customized by customizing the variable
+`nose-mode-prefix-key'. Alternatively you can define your own
+keymap by adding keys to `nose-mode-map'.
+
+In order to activate the minor mode when visiting a python test
+module use the function `nose-mode-enable-if-test-module'. What is
+considered by that function to be a test module is defined by the
+value of the variable `nose-mode-test-module-regex'. By default any
+file matching 'test_.*\.py'.
+
+Dependencies
+============
+
+* Jason Pellerin, Augie Fackle's `nose.el'

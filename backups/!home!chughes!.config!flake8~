@@ -1,0 +1,4 @@
+[pep8]
+# E265 - Block comment must start with '# '
+ignore = E265,E303
+max-line-length = 90

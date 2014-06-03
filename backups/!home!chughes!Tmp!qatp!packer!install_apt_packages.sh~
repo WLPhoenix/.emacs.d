@@ -1,0 +1,25 @@
+#!/bin/sh
+
+yum -y install \
+    wget \
+    curl \
+    tar \
+\
+    redis \
+    nginx \
+    sqlite \
+\
+    screen \
+    lsof \
+    emacs \
+    nc \
+    ack \
+\
+    openldap-devel \
+    cyrus-sasl-devel \
+    libxml2-devel \
+    libxslt-devel \
+    python-devel \
+    readline-devel \
+    sqlite-devel \
+;

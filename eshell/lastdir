@@ -1,0 +1,9 @@
+/tmp
+/ssh:stackd.corp:/tmp
+/home/chughes
+/ssh:stackd.corp:/home/ubuntu
+/ssh:stackd.corp:/home/ubuntu
+/ssh:stackd.corp:/home/stackdio
+/ssh:stackd.corp:/home/stackdio/.virtualenvs
+/home/chughes/Code/qatp
+~

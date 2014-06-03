@@ -1,0 +1,31 @@
+class ShutDown(QATPWorkflow):
+    _name = 'ingest.sub.prep_dataset'
+
+    def get_name(self):
+        return PrepDataset._name
+
+
+    def get_required_config(self):
+        return [{
+            'datasets' : [str],
+        }]
+
+
+    def get_optional_config(self):
+        return {}
+
+
+    def _init_initial_state(self):
+        self.initial_state = {
+            'config' : {
+                'ingest.fetch_dataset' : self._fetch_dataset_initial_state()
+            }
+        }
+
+
+    def _init_tasks(self):
+        self.tasks = [
+            'ingest.fetch_dataset',
+            'ingest.load_dataset',
+        ]
+        self.clean_tasks()

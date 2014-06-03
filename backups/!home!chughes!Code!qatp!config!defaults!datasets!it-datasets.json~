@@ -1,0 +1,16 @@
+
+it-wikipedia-393m = {
+    "bucket": "drs-sequence-files",
+    "key": "ita-wikipedia-393M.seq",
+    "override_properties": False,
+    "language": "italian",
+    "datatype": "sequence_file",
+    }
+
+it-wikipedia-3m = {
+    "bucket": "drs-sequence-files",
+    "key": "ita-wikipedia-3M.seq",
+    "override_properties": False,
+    "language": "italian",
+    "datatype": "sequence_file",
+    }

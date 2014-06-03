@@ -1,0 +1,15 @@
+fa-bijankhan-333k = {
+    "bucket": "drs-sequence-files",
+    "key": "fa-bijankhan-333k.seq",
+    "override_properties": False,
+    "language": "farsi",
+    "datatype": "sequence_file",
+    }
+
+fa-wiki-273m = {
+    "bucket": "drs-sequence-files",
+    "key": "fa-wiki-273m.seq.bz2",
+    "override_properties": False,
+    "language": "farsi",
+    "datatype": "sequence_file",
+    }

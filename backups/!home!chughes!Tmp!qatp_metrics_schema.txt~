@@ -1,0 +1,160 @@
+
+FK Layout:
+
+QATP --> Ingest --> [Synic Schema]
+
+[Process --> Process_Step --> Process_Step_Action --> (Process_Step_Action_Attempt) --> Job_Data]
+
+========================================
+Legend:
+
+--------------------
+TABLE_NAME
+--------------------
+COLUMN_NAME		type			modifier	index	on_view
+
+========================================
+Tables:
+
+--------------------
+QATP
+--------------------
+ID			bigint (PK)		NOT NULL	*
+NAME			varchar			NOT NULL	*
+WORKFLOW		varchar (or FK)		NOT NULL	*
+CONFIG			json	    		NOT NULL		V
+COMMENT			varchar			    			V
+STATUS			varchar			NOT NULL	*
+START_TS		timestamp		NOT NULL	*
+END_TS			timestamp
+USER			varchar (or FK)		NOT NULL	*	V
+DRYRUN			boolean	    		NOT NULL	*
+
+--------------------
+Ingest
+--------------------
+ID			bigint (PK)		NOT NULL	*
+QATP_KEY	       	FK     			NOT NULL	*
+ARTIFACT		varchar			NOT NULL	*	V
+BACKEND			varchar (or FK)		NOT NULL	*	V
+DATASET			varchar (or FK)		NOT NULL	*	V
+BLUEPRINTS		json (?)	    	NOT NULL	*	V
+KB			varchar	    		NOT NULL
+
+--------------------
+Process
+--------------------
+ID			bigint (PK)		NOT NULL	*
+INGEST_KEY		FK     			NOT NULL	*
+PROCESS_ID		varchar			NOT NULL
+APPLICATION		varchar (or FK)		NOT NULL	*	V
+APPLICATION_VERSION	varchar	    		NOT NULL	*	V
+PROCESS_TYPE		varchar
+REQUESTED_TS		timestamp		NOT NULL		V
+STARTED_TS		timestamp		    			V
+COMPLETED_TS		timestamp					V
+STATUS			varchar			NOT NULL		V
+
+--------------------
+Process_Step
+--------------------
+ID			bigint (PK)		NOT NULL	*
+PROCESS_KEY		FK     			NOT NULL	*
+STEP_ORDER_ID		int			NOT NULL	*	V
+STEP_NAME		varchar			NOT NULL	*	V
+START_TS		timestamp		NOT NULL		V
+END_TS			timestamp		    			V
+OUTCOME			varchar						V
+DETAILS			json			DEFAULT {}		V
+
+____________________________________________________________
+
+????????????????????? Don't know below ?????????????????????
+____________________________________________________________
+
+--------------------
+Process_Step_Action - (May be different per process)
+--------------------
+ID			bigint (PK)		NOT NULL	*
+STEP_KEY		FK     			NOT NULL	*
+ACTION_ID		varchar			NOT NULL
+EXTERNAL_ID		varchar			NOT NULL
+JOB_NAME		varchar			NOT NULL	*	V
+TYPE			varchar
+CONF			xml
+STATUS			varchar
+DATA			varchar
+ERROR_CODE		varchar (or int)				V
+ERROR_MESSAGE		varchar						V
+TRANSITION		varchar
+START_TS		timestamp		NOT NULL		V
+END_TS			timestamp					V
+
+--------------------
+Job_Data
+--------------------
+ID			bigint (PK)		NOT NULL	*
+JOB_ID			varchar			NOT NULL
+NAME			varchar			NOT NULL	*	V
+QUEUE			varchar
+CONF			xml (?)
+PRIORITY		varchar
+USER			varchar
+LAUNCH_TS		timestamp		NOT NULL		V
+PERSIST_TS		timestamp					V
+FINISH_TS		timestamp					V
+MAPS			hstore (?)
+-- FINISHED
+-- FAILED
+-- TOTAL
+REDUCES			hstore (?)
+-- FINISHED
+-- FAILED
+-- TOTAL
+COUNTERS		hstore (or json)			*	V
+
+
+========================================
+Views:
+
+Metrics_View
+--------------------
+COMMENT
+ARTIFACT			varchar
+BACKEND				varchar
+DATAESET			varchar
+BLUEPRINT_NODE_SIZE		integer
+BLUEPRINT_COUNT_SIZE		varchar
+
+APPLICATION			varchar
+APPLICATION_VERSION		varchar
+
+PROCESS_STATUS			varchar
+PROCESS_REQUESTED_TS		timestamp
+PROCESS_START_TS		timestamp
+PROCESS_END_TS			timestamp
+PROCESS_RUNTIME			interval
+
+STEP_ORDER_ID			int
+STEP_NAME			varchar
+STEP_OUTCOME			varchar
+STEP_START_TS			timestamp
+STEP_END_TS			timestamp
+STEP_RUNTIME			interval
+STEP_DETAILS			json
+
+========================================
+
+ACTION_JOB_NAME			varchar
+ACTION_STATUS			varchar
+ACTION_ERROR_CODE		int
+ACTION_ERROR_MESSAGE		varchar
+ACTION_START_TS			timestamp
+ACTION_END_TS			timestamp
+ACTION_RUNTIME			interval
+
+JOB_LAUNCH_TS			timestamp
+JOB_PERSIST_TS			timestamp
+JOB_FINISH_TS			timestamp
+JOB_RUNTIME			interval
+JOB_COUNTERS			json

@@ -1,0 +1,18 @@
+#!/usr/bin/python
+import sys
+from qatp_core.qatp.core import QATPCore
+
+def main():
+    qatp = QATPCore()
+    task_name = sys.argv[1]
+    cls = qatp.suite_manager.get_tasks().get(task_name)
+    if not cls:
+        print '%s : not loaded' % task_name
+        return
+    task = cls.__new__(cls)
+    print 'required: %s' % task.get_required_config()
+    print 'optional: %s' % task.get_optional_config()    
+    print 'state: %s' % task.get_expected_state()
+    
+if __name__ == '__main__':
+    main()

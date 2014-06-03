@@ -1,0 +1,153 @@
+import json
+import time
+from qatp_core.qatp.decorators import on_dryrun
+from qatp_core.qatp.http_requests import get, post
+from qatp_core.qatp.log import con_log, sql_log
+from qatp_core.qatp.state import CommonState
+
+DEFAULT_CDH_VERSION = 4
+COMPLETED_STATES = ("COMPLETE", "FAILED", "CANCELLED")
+FAILED_STATES = ("FAILED", "TERMINATED", "FATAL_ERROR")
+
+@on_dryrun(lambda *_, **__ : None)        
+def run_synic_task(synic_url, keyspace, application, config, cdh_version):        
+    """Trigger core analytics and wait for completion."""
+    processType = "oozie-cdh%s" % str(cdh_version) if cdh_version > 3 else "oozie"
+    results = _start_process(synic_url, keyspace, application, processType, config)
+    proc_id = results.json()["id"]
+    _wait_for_batch(synic_url, proc_id)
+
+@on_dryrun(lambda *_, **__ : None)        
+def stream_synic_task(synic_url, keyspace, application, config, cdh_version):        
+    """Trigger core analytics and wait for completion."""
+    processType = "storm"
+    results = _start_process(synic_url, keyspace, application, processType, config)
+    proc_id = results.json()["id"]
+    _wait_for_stream(synic_url, proc_id)
+    
+
+def _start_process(synic_url, keyspace, application, processType, config):
+    qs_common = CommonState()
+    JSON_HEADERS = {'content-type' : 'application/JSON'}
+    url = "%s/synic/api/process/?expandErrors=true" % synic_url
+    payload = {
+        "kb": keyspace,
+        "application": application,
+        "processType": processType,
+        "invocationConfig": config
+    }
+    results = post(url, JSON_HEADERS, json.dumps(payload))
+    return results    
+
+    
+def _wait_for_batch(synic_url, proc_id):
+    """Query synic for a given procId and wait for it to finish (batch only)"""
+   
+    SLEEP_TIME = 30
+    MAX_INVALID = 3
+    
+    url = "%s/synic/api/process/%s" % (synic_url, proc_id)
+
+    processing = True
+    num_invalid = 0
+    # One verbose for the logs
+    results = get(url)   
+    while processing and num_invalid < MAX_INVALID:
+
+        procDetails = results.json()
+
+        if not procDetails:
+            con_log().info("Invalid response, waiting to try again: %s" % results.json())
+            num_invalid += 1
+            time.sleep(sleep_time)
+            continue
+
+        if procDetails["status"] not in COMPLETED_STATES:
+            time.sleep(SLEEP_TIME)
+            results = get(url, verbose=False)
+        else:
+            processing = False
+        
+    proc_details = results.json()
+    if proc_details["status"] == "FAILED":
+        sql_log().error("Process %s failed" % proc_id)
+        con_log().error("Results: %s" % results.text)
+        raise Exception("Synic task exited: %s" % _format_synic_error(proc_details))
+        
+    elif proc_details["status"] == "CANCELLED":
+        sql_log().error("Process %s was cancelled" % proc_id)
+        con_log().error("Results: %s" % results.failure)
+        raise Exception("Synic task exited: %s" % _format_synic_error(proc_details))
+
+
+def _wait_for_stream(synic_url, proc_id):
+    """Query synic for a given proc_id and wait for the documentsProcessed to
+    stop increasing (streaming only)"""
+
+    con_log().info("Waiting for topology to start")
+
+    url = "%s/synic/api/process/%s" % (synic_url, proc_id)
+    
+    # fire one so we have a log of what we're polling
+    results = get(url)       
+    
+    # since we're streaming, we're never "done", so doing a check to see when 
+    # the number of documentsProcessed stops increasing
+
+    # TODO: we should be able to wait for "RUNNING" step and then watch the details of that step
+
+    # time to wait for the first message to hit (this can take a while)
+    startup_limit = 1800
+    # amount of time to monitor before moving on
+    time_threshold = 1800
+    # amount of time to sleep between checks
+    sleep_time = 30
+    time_changed = 0
+    total_time = 0
+    num_docs = 0
+    started_streaming = False
+    streaming_docs = True
+    while streaming_docs:
+        results = get(url)       
+        process = results.json()
+
+        # if we've had some sort of failure then let's bail immediately
+        if process["status"] in FAILED_STATES:
+            sql_log().error("Process %s failed" % proc_id)
+            con_log().error("Results: %s" % results.text)
+            raise Exception("Synic task exited %s" % _format_synic_error(process))
+        
+        running_step = ([o for o in process['steps'] if o['stepName']=='RUNNING'] or [None])[0]
+
+        if not started_streaming:
+            if running_step and running_step['details']['documentsProcessed'] > 0:
+                sql_log().info("Documents have started streaming")
+                started_streaming = True
+            elif total_time > startup_limit:
+                raise Exception("Topology has failed to start in %s seconds" % total_time)
+            else:
+                total_time += sleep_time
+                time.sleep(sleep_time)
+                continue
+
+        _num_docs = running_step['details']['documentsProcessed']
+
+        if _num_docs < 0:
+            raise Exception("Negative documentsProcessed: %s" % results.text)
+
+        if num_docs != _num_docs:
+            time_changed = 0
+            num_docs = _num_docs
+        else:
+            time_changed += sleep_time
+            total_time += sleep_time
+            
+        if started_streaming and (time_changed > time_threshold):
+            sql_log().info("Streaming appears to be done, no changes in %s seconds" % time_changed)
+            streaming_docs = False
+        else:
+            time.sleep(sleep_time)
+
+
+def _format_synic_error(text):
+    return json.dumps(text, indent=2, default=str).replace("\\n", "\n").replace("\\t", "\t")

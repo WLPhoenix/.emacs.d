@@ -1,0 +1,53 @@
+from os import path
+
+from qatp_core.qatp.tasks import QATPWorkflow, LazyStateRedirect
+from qatp_core.qatp.exceptions import InvalidConfigException
+from qatp_core.qatp.log import con_log
+
+from ... import ingest_tasks
+from qatp_core.common_suites.common import common_tasks
+
+class PrepQueries(QATPWorkflow):
+    _name = 'ingest.sub.prep_dataset'
+
+    def get_name(self):
+        return PrepDataset._name
+
+        
+    def get_required_config(self):
+        return [{
+            'datasets' : [str],
+        }]
+
+        
+    def get_optional_config(self):
+        return {}
+
+        
+    def _init_initial_state(self):
+        self.initial_state = {
+            'config' : {
+                'ingest.fetch_dataset' : self._fetch_dataset_initial_state()
+            }
+        }
+
+        
+    def _init_tasks(self):
+        self.tasks = [
+            'ingest.fetch_dataset',
+            'ingest.load_dataset',
+        ]
+        self.clean_tasks()    
+
+
+    def _fetch_dataset_initial_state(self):
+        state = { 'datasets' : self.config ['datasets'] }
+        
+        if not state.get('dataset_dir'):
+            state['dataset_dir'] = path.join('/mnt', 'storage', "{run_id}", 'datasets')
+            
+        if not state.get('hosts'):
+            state['hosts'] = LazyStateRedirect('infrastructure', 'namenodes')
+
+        return state
+

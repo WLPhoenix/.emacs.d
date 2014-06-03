@@ -1,0 +1,22 @@
+1.Be able to run dataset specific workflows. This right now just covers the wikilinks dataset. There is an eval-workflow.xml and a class that is run post resonance.
+
+ * QATP Schedule support
+
+2. Extract yaml of resonance concepts using CorefToYAMLJob or the associated script
+
+ ? QATP Schedule support
+
+3. Extracting certain daf files for evaluation against a holdout
+
+  ! Further definition (I don't know what this means)
+
+
+4. Calculating the F/P/R score from the above files using the holdout set of files
+
+  ! Further definition (I don't know what this means)
+
+5. Extracting certain annotations from the above files
+6. Extraction of certain counters
+7. Be able to track the above counters
+8. Be able to email a warning about an abnormal change in the above counters
+9. Extract a random sampling of different analytics for manual evaluation in qatp

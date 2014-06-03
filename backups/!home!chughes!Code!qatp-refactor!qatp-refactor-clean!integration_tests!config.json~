@@ -1,0 +1,189 @@
+{
+    "hbase_batch" : {
+        "run_config": {
+            "artifact": "https://nexus.corp.digitalreasoning.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.digitalreasoning.synthesys&a=synthesys-dist&v=LATEST&p=tar.gz",
+            "datasets": [
+                "en-oef-834k"
+            ],
+            "queries": [
+                "kbql"
+            ],
+            "stacks": [
+                {
+                    "blueprint": "cdh450-openjdk6-3",
+                    "title": "batchtest-hbase",
+                    "type": "hadoop"
+                }
+            ],
+            "synic": {
+                "restart": true
+            },
+            "synthesys_server": {
+                "restart": true
+            }
+        },
+        "workflow": "ingest.hbase_batch"
+    },
+    "hbase_streaming": {
+        "run_config": {
+            "artifact": "https://nexus.corp.digitalreasoning.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.digitalreasoning.synthesys&a=synthesys-dist&v=LATEST&p=tar.gz",
+            "datasets": [
+                "en-oef-834k"
+            ],
+            "queries": [
+                "kbql"
+            ],
+            "stacks": [
+                {
+                    "blueprint": "cdh450-openjdk6-3",
+                    "title": "streamtest-hbase",
+                    "type": "hadoop"
+                },
+                {
+                    "blueprint": "storm-ojdk7-8-3",
+                    "title": "streamtest-hbase-storm",
+                    "type": "storm"
+                }
+            ],
+            "synic": {
+                "restart": true
+            },
+            "synthesys_server": {
+                "restart": true
+            }
+        },
+        "workflow": "ingest.hbase_streaming"
+    },
+    "cassandra_batch" : {
+        "run_config": {
+            "artifact": "https://nexus.corp.digitalreasoning.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.digitalreasoning.synthesys&a=synthesys-dist&v=LATEST&p=tar.gz",
+            "datasets": [
+                "en-oef-834k"
+            ],
+            "queries": [
+                "kbql"
+            ],
+            "stacks": [
+                {
+                    "blueprint": "cdh450-openjdk6-3",
+                    "title": "batchtest-cassandra",
+                    "type": "hadoop"
+                },
+		{
+                    "blueprint": "cassandra-ojdk6-12-3",
+                    "title": "batchtest-cassandra-cassandra",
+                    "type": "cassandra"
+                }
+            ],
+            "synic": {
+                "restart": true
+            },
+            "synthesys_server": {
+                "restart": true
+            }
+        },
+        "workflow": "ingest.cassandra_batch"
+    },
+    "cassandra_streaming": {
+        "run_config": {
+            "artifact": "https://nexus.corp.digitalreasoning.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.digitalreasoning.synthesys&a=synthesys-dist&v=LATEST&p=tar.gz",
+            "datasets": [
+                "en-oef-834k"
+            ],
+            "queries": [
+                "kbql"
+            ],
+            "stacks": [
+                {
+                    "blueprint": "cdh450-openjdk6-3",
+                    "title": "streamtest-cassandra",
+                    "type": "hadoop"
+                },
+		{
+                    "blueprint": "cassandra-ojdk6-12-3",
+                    "title": "streamtest-cassandra-cassandra",
+                    "type": "cassandra"
+                },
+                {
+                    "blueprint": "storm-ojdk7-8-3",
+                    "title": "streamtest-cassandra-storm",
+                    "type": "storm"
+                }
+            ],
+            "synic": {
+                "restart": true
+            },
+            "synthesys_server": {
+                "restart": true
+            }
+        },
+        "workflow": "ingest.cassandra_streaming"
+    },
+    "accumulo_batch" : {
+        "run_config": {
+            "artifact": "https://nexus.corp.digitalreasoning.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.digitalreasoning.synthesys&a=synthesys-dist&v=LATEST&p=tar.gz",
+            "datasets": [
+                "en-oef-834k"
+            ],
+            "queries": [
+                "kbql"
+            ],
+            "stacks": [
+                {
+                    "blueprint": "cdh450-openjdk6-3",
+                    "title": "batchtest-accumulo",
+                    "type": "hadoop"
+                },
+		{
+                    "blueprint": "accumulo-ojdk6-12-3",
+                    "title": "batchtest-accumulo-accumulo",
+                    "type": "accumulo"
+                }
+            ],
+            "synic": {
+                "restart": true
+            },
+            "synthesys_server": {
+                "restart": true
+            }
+        },
+        "workflow": "ingest.accumulo_batch"
+    },
+    "accumulo_streaming": {
+        "run_config": {
+            "artifact": "https://nexus.corp.digitalreasoning.com/nexus/service/local/artifact/maven/redirect?r=snapshots&g=com.digitalreasoning.synthesys&a=synthesys-dist&v=LATEST&p=tar.gz",
+            "datasets": [
+                "en-oef-834k"
+            ],
+            "queries": [
+                "kbql"
+            ],
+            "stacks": [
+                {
+                    "blueprint": "cdh450-openjdk6-3",
+                    "title": "streamtest-accumulo",
+                    "type": "hadoop"
+                },
+		{
+                    "blueprint": "accumulo-ojdk6-12-3",
+                    "title": "streamtest-accumulo-accumulo",
+                    "type": "accumulo"
+                },
+                {
+                    "blueprint": "storm-ojdk7-8-3",
+                    "title": "streamtest-accumulo-storm",
+                    "type": "storm"
+                }
+            ],
+            "synic": {
+                "restart": true
+            },
+            "synthesys_server": {
+                "restart": true
+            }
+        },
+        "workflow": "ingest.accumulo_streaming"
+    }	
+}
+
+

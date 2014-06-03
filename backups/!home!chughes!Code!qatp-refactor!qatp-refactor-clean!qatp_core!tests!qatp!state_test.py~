@@ -1,0 +1,156 @@
+import unittest
+import sys
+
+from mock import Mock, patch
+
+from qatp_core.qatp import http_requests
+from qatp_core.qatp.state import CommonState
+
+
+class HttpRequestsTests(unittest.TestCase):
+
+    def setUp(self):
+        self.URL = "http://google.com"
+        self.KWA = {
+            "a" : "a",
+            "b" : "b",
+            "c" : "c"
+        }
+
+    @patch('qatp_core.qatp.http_requests._log_args')
+    def test_dry(self, log_args):
+        result = http_requests._dry("HEAD")
+        self.failUnless(callable(result))
+
+    @patch('qatp_core.qatp.http_requests._log_args')
+    def test_dry_result(self, log_args):
+        http_requests._dry("HEAD")(self.URL, True)
+        self.failUnless(log_args.called)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_head(self, _request):
+        http_requests.head(self.URL)
+        self.failUnless(_request.called)
+        _request.assert_called_with("HEAD", self.URL, True)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_head_kwargs(self, _request):
+        http_requests.head(self.URL, **self.KWA)
+        self.failUnless(_request.called)
+        _request.assert_called_with("HEAD", self.URL, True, **self.KWA)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_get(self, _request):
+        http_requests.get(self.URL)
+        self.failUnless(_request.called)
+        _request.assert_called_with("GET", self.URL, True)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_get_kwargs(self, _request):
+        http_requests.get(self.URL, **self.KWA)
+        self.failUnless(_request.called)
+        _request.assert_called_with("GET", self.URL, True, **self.KWA)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_get_stream(self, _request):
+        _request.raw = Mock()
+        release_conn = Mock()
+        _request.raw.release_conn = release_conn
+
+        http_requests.get(self.URL, stream=True)
+
+        self.failUnless(release_conn)
+
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_post(self, _request):
+        http_requests.post(self.URL)
+        self.failUnless(_request.called)
+        _request.assert_called_with("POST", self.URL, True)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_post_kwargs(self, _request):
+        http_requests.post(self.URL, **self.KWA)
+        self.failUnless(_request.called)
+        _request.assert_called_with("POST", self.URL, True, **self.KWA)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_put(self, _request):
+        http_requests.put(self.URL)
+        self.failUnless(_request.called)
+        _request.assert_called_with("PUT", self.URL, True)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_put_kwargs(self, _request):
+        http_requests.put(self.URL, **self.KWA)
+        self.failUnless(_request.called)
+        _request.assert_called_with("PUT", self.URL, True, **self.KWA)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_patch(self, _request):
+        http_requests.patch(self.URL)
+        self.failUnless(_request.called)
+        _request.assert_called_with("PATCH", self.URL, True)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_patch_kwargs(self, _request):
+        http_requests.patch(self.URL, **self.KWA)
+        self.failUnless(_request.called)
+        _request.assert_called_with("PATCH", self.URL, True, **self.KWA)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_delete(self, _request):
+        http_requests.delete(self.URL)
+        self.failUnless(_request.called)
+        _request.assert_called_with("DELETE", self.URL, True)
+
+    @patch('qatp_core.qatp.http_requests._request')
+    def test_delete_kwargs(self, _request):
+        http_requests.delete(self.URL, **self.KWA)
+        self.failUnless(_request.called)
+        _request.assert_called_with("DELETE", self.URL, True, **self.KWA)
+
+    @patch('requests.request')
+    def test_request(self, request):
+        rtrn_val = "blah"
+        request.return_value = rtrn_val
+        result = http_requests._request("GET", self.URL, False)
+        self.failUnless(result is rtrn_val)
+
+
+    @patch('qatp_core.qatp.http_requests._log_results')
+    @patch('qatp_core.qatp.http_requests._log_args')
+    @patch('requests.request')
+    def test_request_verbose(self, request, log_args, log_result):
+        rtrn_val = http_requests._mock_result()
+        request.return_value = rtrn_val
+        result = http_requests._request("GET", self.URL, True)
+
+        self.failUnless(result is rtrn_val)
+        self.failUnless(log_args.called)
+        self.failUnless(log_result.called)
+
+
+    @patch('requests.request')
+    def test_request_logging(self, request):
+        rtrn_val = http_requests._mock_result()
+        request.return_value = rtrn_val
+        result = http_requests._request("GET", self.URL, True)
+
+        self.failUnless(result is rtrn_val)
+
+    @patch('requests.request')
+    def test_request_logging_kwargs(self, request):
+        rtrn_val = http_requests._mock_result()
+        request.return_value = rtrn_val
+        result = http_requests._request("GET", self.URL,
+                                        True, **self.KWA)
+        self.failUnless(result is rtrn_val)
+
+
+def main():
+    unittest.main()
+
+
+if __name__ == '__main__':
+    main()

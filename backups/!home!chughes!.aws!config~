@@ -1,0 +1,14 @@
+[default]
+aws_access_key_id=AKIAJF5H7AWFMSN7RDPQ
+aws_secret_access_key=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
+region=us-east-1
+
+[profile qatp_s3]
+aws_access_key_id=AKIAJFVXX3UAACOVTUCQ
+aws_secret_access_key=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
+region=us-east-1
+
+[profile qatp_ses]
+aws_access_key_id=AKIAJFVXX3UAACOVTUCQ
+aws_secret_access_key=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
+region=us-east-1

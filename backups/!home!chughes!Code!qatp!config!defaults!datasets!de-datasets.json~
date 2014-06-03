@@ -1,0 +1,23 @@
+de-sdewac-1.1g = {
+    "bucket": "drs-sequence-files",
+    "key": "de-sdewac-1.1G.seq",
+    "override_properties": False,
+    "language": "german",
+    "datatype": "sequence_file",
+    }
+
+de-ldc-242m = {
+    "bucket": "drs-sequence-files",
+    "key": "de-ldc-242M.seq",
+    "override_properties": False,
+    "language": "german",
+    "datatype": "sequence_file",
+    }
+
+de-sdewac-3m = {
+    "bucket": "drs-sequence-files",
+    "key": "de-sdewac-3M.seq",
+    "override_properties": False,
+    "language": "german",
+    "datatype": "sequence_file",
+    }

@@ -1,0 +1,125 @@
+# -*- coding: utf-8 -*-
+from south.utils import datetime_utils as datetime
+from south.db import db
+from south.v2 import SchemaMigration
+from django.db import models
+
+
+class Migration(SchemaMigration):
+
+    def forwards(self, orm):
+        # Deleting model 'QatpSummary'
+        db.delete_table(u'qatp_summary')
+
+        # Adding model 'Run'
+        db.create_table(u'qatp_summary', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('qatp_instance', self.gf('django.db.models.fields.TextField')()),
+            ('dataset', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('buildnum', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('backend', self.gf('django.db.models.fields.TextField')()),
+            ('status', self.gf('django.db.models.fields.TextField')()),
+            ('status_details', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('current_step', self.gf('django.db.models.fields.TextField')()),
+            ('start_time', self.gf('django.db.models.fields.DateTimeField')()),
+            ('end_time', self.gf('django.db.models.fields.DateTimeField')(null=True)),
+            ('duration', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('dryrun', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('stats', self.gf('django.db.models.fields.TextField')(null=True)),
+        ))
+        db.send_create_signal(u'report', ['Run'])
+
+
+    def backwards(self, orm):
+        # Adding model 'QatpSummary'
+        db.create_table(u'qatp_summary', (
+            ('status', self.gf('django.db.models.fields.TextField')()),
+            ('dryrun', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('buildnum', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('start_time', self.gf('django.db.models.fields.DateTimeField')()),
+            ('dataset', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('qatp_instance', self.gf('django.db.models.fields.TextField')()),
+            ('current_step', self.gf('django.db.models.fields.TextField')()),
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('duration', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('backend', self.gf('django.db.models.fields.TextField')()),
+            ('stats', self.gf('django.db.models.fields.TextField')(null=True)),
+            ('end_time', self.gf('django.db.models.fields.DateTimeField')(null=True)),
+            ('status_details', self.gf('django.db.models.fields.TextField')(null=True)),
+        ))
+        db.send_create_signal(u'report', ['QatpSummary'])
+
+        # Deleting model 'Run'
+        db.delete_table(u'qatp_summary')
+
+
+    models = {
+        u'report.events': {
+            'Meta': {'ordering': "['-msg_timestamp', '-id']", 'object_name': 'Events', 'db_table': "u'events'"},
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'msg': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'msg_timestamp': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'qatp_instance': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'type': ('django.db.models.fields.TextField', [], {'blank': 'True'})
+        },
+        u'report.run': {
+            'Meta': {'ordering': "['-qatp_instance']", 'object_name': 'Run', 'db_table': "u'qatp_summary'"},
+            'backend': ('django.db.models.fields.TextField', [], {}),
+            'buildnum': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'current_step': ('django.db.models.fields.TextField', [], {}),
+            'dataset': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'dryrun': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'duration': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'end_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'qatp_instance': ('django.db.models.fields.TextField', [], {}),
+            'start_time': ('django.db.models.fields.DateTimeField', [], {}),
+            'stats': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'status': ('django.db.models.fields.TextField', [], {}),
+            'status_details': ('django.db.models.fields.TextField', [], {'null': 'True'})
+        },
+        u'report.statsdiskutilization': {
+            'Meta': {'object_name': 'StatsDiskUtilization', 'db_table': "u'stats_diskutilization'"},
+            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
+            'path': ('django.db.models.fields.TextField', [], {}),
+            'qatp_instance': ('django.db.models.fields.TextField', [], {}),
+            'size': ('django.db.models.fields.IntegerField', [], {})
+        },
+        u'report.statshadoop': {
+            'Meta': {'ordering': "['-qatp_instance']", 'object_name': 'StatsHadoop', 'db_table': "u'stats_hadoop'"},
+            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
+            'job_details': ('django.db.models.fields.TextField', [], {}),
+            'job_finish_time': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'job_id': ('django.db.models.fields.TextField', [], {}),
+            'job_name': ('django.db.models.fields.TextField', [], {}),
+            'job_start_time': ('django.db.models.fields.DateTimeField', [], {}),
+            'job_status': ('django.db.models.fields.TextField', [], {}),
+            'qatp_instance': ('django.db.models.fields.TextField', [], {})
+        },
+        u'report.statsquality': {
+            'Meta': {'object_name': 'StatsQuality', 'db_table': "u'stats_quality'"},
+            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
+            'qatp_instance': ('django.db.models.fields.TextField', [], {}),
+            'test_full_output': ('django.db.models.fields.TextField', [], {}),
+            'test_name': ('django.db.models.fields.TextField', [], {}),
+            'test_scores': ('django.db.models.fields.TextField', [], {'null': 'True'}),
+            'test_status': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
+        },
+        u'report.statsuptime': {
+            'Meta': {'object_name': 'StatsUptime', 'db_table': "u'stats_uptime'"},
+            'cluster_name': ('django.db.models.fields.TextField', [], {}),
+            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
+            'instance_type': ('django.db.models.fields.TextField', [], {}),
+            'qatp_instance': ('django.db.models.fields.TextField', [], {}),
+            'uptime': ('django.db.models.fields.IntegerField', [], {})
+        },
+        u'report.statsworkflow': {
+            'Meta': {'object_name': 'StatsWorkflow', 'db_table': "u'stats_workflow_summary'"},
+            'file_contents': ('django.db.models.fields.TextField', [], {}),
+            'file_name': ('django.db.models.fields.TextField', [], {}),
+            'id': ('django.db.models.fields.IntegerField', [], {'primary_key': 'True'}),
+            'qatp_instance': ('django.db.models.fields.TextField', [], {})
+        }
+    }
+
+    complete_apps = ['report']

@@ -1,0 +1,19 @@
+import errno
+import logging
+import os
+import sys
+
+from .. import persistence
+
+def init(config, run_id=None):
+    sql_log = get_logger()
+    sql_log.handlers = []
+    sql_handler = persistence.get_sql_log_handler()    
+    if run_id:
+        sql_handler.qatp_instance = run_id        
+    sql_log.addHandler(sql_handler)
+    sql_log.setLevel(logging.getLevelName(config['level']))
+    sql_log.propogate = True
+    
+def get_logger():
+    return logging.getLogger('qatp.sqlite')

@@ -27,6 +27,7 @@
 
 ;;; Language specific
 (load-if-exists "~/.emacs.d/init/python.el")
+(load-if-exists "~/.emacs.d/init/java.el")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -50,16 +51,14 @@
 (setq linum-format "%s ")                                 ; add space after line numbers
 (fset 'yes-or-no-p 'y-or-n-p)                             ; All 'yes/no' prompts show 'y/n'
 (set-display-table-slot standard-display-table 'wrap ?\ ) ; remove linewrap '\'
-(put 'downcase-region 'disabled nil)
+(setq mouse-yank-at-point t)                              ; Paste at cursor, not mouse position
 
-;;; Flymake config
-(custom-set-faces
- '(flymake-errline ((((class color)) (:underline "red"))))
- '(flymake-warnline ((((class color)) (:underline "yellow")))))
+;;; Enable certain commands
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
 ;;; Hooks
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-;(add-hook 'write-file-hooks (lambda () (untabify (point-min) (point-max)))) ; untabify buffer
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -67,4 +66,3 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;(unless (and (fboundp 'server-running-p) (server-running-p))
 ;  (server-start))
-(put 'upcase-region 'disabled nil)

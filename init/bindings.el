@@ -1,6 +1,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                 Bindings                                   ;;
- ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; Unset annoying keys
+(global-unset-key (kbd "C-h C-a")) ; unset 'about-emacs
+(global-unset-key (kbd "C-h C-c")) ; unset 'describe-copying
+(global-unset-key (kbd "C-h C-n")) ; unset 'view-emacs-news
+(global-unset-key (kbd "C-h C-w")) ; unset 'describe-no-warranty
+(global-unset-key (kbd "C-h RET")) ; unset 'view-order-manuals
 
 ;;; Windowing
 (global-set-key (kbd "C-1") 'delete-other-windows)
@@ -28,3 +35,4 @@
 (global-set-key (kbd "C-x m s") 'shell-script-mode)
 (global-set-key (kbd "C-x m t") 'text-mode)
 (global-set-key (kbd "C-x m w") 'whitespace-mode)
+(global-set-key (kbd "C-x m .") 'toggle-truncate-lines)

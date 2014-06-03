@@ -1,0 +1,15 @@
+pt-portuguese-wikipedia-778k = {
+    "bucket": "drs-sequence-files",
+    "key": "small-portuguese-wikipedia-778kb.seq",
+    "override_properties": False,
+    "language": "portuguese",
+    "datatype": "sequence_file",
+    }
+
+pt-portuguese-wikipedia-980m = {
+    "bucket": "drs-sequence-files",
+    "key": "portuguese-wikipedia-980mb.seq",
+    "override_properties": False,
+    "language": "portuguese",
+    "datatype": "sequence_file",
+    }

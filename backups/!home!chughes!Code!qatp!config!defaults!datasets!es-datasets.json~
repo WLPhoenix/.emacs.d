@@ -1,0 +1,39 @@
+es-spanish-gigaword-3.71g = {
+    "bucket": "drs-sequence-files",
+    "key": "afp-spanish-gigaword-3.71gb.seq",
+    "override_properties": False,
+    "language": "spanish",
+    "datatype": "sequence_file",
+    }
+
+es-spanish-gigaword-772m = {
+    "bucket": "drs-sequence-files",
+    "key": "all-spanish-gigaword-772mb.seq",
+    "override_properties": False,
+    "language": "spanish",
+    "datatype": "sequence_file",
+    }
+
+es-spanish-gigaword-2.36g = {
+    "bucket": "drs-sequence-files",
+    "key": "apw-spanish-gigaword-2.36gb.seq",
+    "override_properties": False,
+    "language": "spanish",
+    "datatype": "sequence_file",
+    }
+
+es-spanish-gigaword-112k = {
+    "bucket": "drs-sequence-files",
+    "key": "small-spanish-gigaword-112kb.seq",
+    "override_properties": False,
+    "language": "spanish",
+    "datatype": "sequence_file",
+    }
+
+es-spanish-gigaword-1.24g = {
+    "bucket": "drs-sequence-files",
+    "key": "xin-spanish-gigaword-1.24gb.seq",
+    "override_properties": False,
+    "language": "spanish",
+    "datatype": "sequence_file",
+    }
