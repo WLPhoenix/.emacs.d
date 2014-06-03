@@ -1,8 +1,0 @@
-import Data.List
-
-main = print (quicksort [5, 1, 6, 2, 6, 12])
-
-quicksort       :: [Integer] -> [Integer]
-quicksort []     = []
-quicksort (x:[]) = [x]
-quicksort l      = concat( map( 'quicksort (partition l (<= head l))))

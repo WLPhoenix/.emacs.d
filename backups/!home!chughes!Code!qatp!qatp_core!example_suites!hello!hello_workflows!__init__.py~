@@ -1,9 +1,0 @@
-from random_gamble import RandomGamble
-
-def get_workflows():
-    return {
-        RandomGamble._name : RandomGamble
-    }
-
-def get_workflow(name):
-    return get_workflows().get(name)

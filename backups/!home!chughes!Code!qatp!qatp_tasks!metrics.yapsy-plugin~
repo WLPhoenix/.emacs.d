@@ -1,7 +1,0 @@
-[Core]
-Name = ingest
-Module = ingest
-
-[Documentation]
-Author = Cory Hughes
-Version = 0.1
