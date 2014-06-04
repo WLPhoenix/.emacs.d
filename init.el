@@ -13,6 +13,14 @@
   "Load file if it exists"
   (when (file-exists-p file) (load-file file)))
 
+(defun current-line ()
+  "Return the current line as a string"
+  (buffer-substring-no-properties (line-beginning-position) (line-end-position)))
+
+(defun line-only-left-brace ()
+  "Check if the only character on the current line is {"
+  (string-match "^[[:space:]]*{[[:space:]]*$" (current-line)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;                                  Init files                                ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -26,8 +34,8 @@
 (load-if-exists "~/.emacs.d/init/appearance.el")
 
 ;;; Language specific
+(load-if-exists "~/.emacs.d/init/cc.el")
 (load-if-exists "~/.emacs.d/init/python.el")
-(load-if-exists "~/.emacs.d/init/java.el")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -35,7 +43,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;; Digital Reasoning
-(load-if-exists "~/.emacs.d/private/digitalreasoning.el")
+(load-if-exists "~/.emacs.d/init/digitalreasoning.el")
+(load-if-exists "~/.emacs.d/private/digitalreasoning_private.el")
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -52,6 +61,7 @@
 (fset 'yes-or-no-p 'y-or-n-p)                             ; All 'yes/no' prompts show 'y/n'
 (set-display-table-slot standard-display-table 'wrap ?\ ) ; remove linewrap '\'
 (setq mouse-yank-at-point t)                              ; Paste at cursor, not mouse position
+(when (require 'yasnippet) (setq yas-global-mode t))      ; Turn on yas globally
 
 ;;; Enable certain commands
 (put 'downcase-region 'disabled nil)
