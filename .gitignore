@@ -1,8 +1,17 @@
+# Backup files
+
+\#*\#
+.\#*
+
+# Various other files
 
 ac-comphist.dat
 eproject.lst
+srecode-map.el
+tramp
 
 # Directories
+
 .cask/
 .python-environments/
 auto-save-list/
@@ -10,8 +19,10 @@ backups/
 eshell/
 elpa/
 private/
-tramp/
+semanticdb/
+
 url/
 
 # Compiled
+
 *.elc

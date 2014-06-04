@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hashmap
+# key: <>HM
+# --
+${1:Map}<$5> ${2:map} = HashMap<$3,$4>($6);
+$0

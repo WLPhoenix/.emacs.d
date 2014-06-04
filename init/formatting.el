@@ -28,17 +28,19 @@
     (while (search-forward "\\'" nil t) (replace-match "'" nil t))
 ))
 
-(defun newline-with-drop-brace ()
-  "If the character before the point is a brace, drop it to the next"
-  "line before 'newline-and-indent"
+(defun hang-braces ()
+  "Move all braces at the end of a occupied line to the next line"
   (interactive)
-  (delete-horizontal-space)
-  (if (string= (string (preceding-char)) "{")
-    (progn
-	  (backward-char 1)
-	  (newline-and-indent)
-	  (forward-char 1)
-    )
-	'nil)
-  (newline-and-indent)
+  (save-excursion
+	(beginning-of-buffer)
+	(setq moreLines t)
+	(while moreLines
+	  (end-of-line)
+	  (drop-preceding-brace)
+	  (setq moreLines (= 0 (forward-line 1))))
+  )
+)
+
+(defun unhang-braces ()
+  "Move all hanging braces to the end of the preceding line"
 )

@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: <>AL
+# name: arraylist
+# --
+${1:List}<$4> ${2:list} = ArrayList<$3>($5);
+$0

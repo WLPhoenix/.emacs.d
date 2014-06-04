@@ -30,8 +30,33 @@
 (defun unix-werase-or-kill (arg)
   "If transient mark mode is active, perform 'kill-region, else perform
   'backward-delete-word."
-      (interactive "*p")
-      (if (and transient-mark-mode
-	          mark-active)
-          (kill-region (region-beginning) (region-end))
-        (backward-delete-word arg)))
+  (interactive "*p")
+  (if (and transient-mark-mode
+		   mark-active)
+	  (kill-region (region-beginning) (region-end))
+	  (backward-delete-word arg)))
+
+
+(defun drop-preceding-brace ()
+  "If the character before the point is a brace, drop it to the next"
+  "line"
+  (interactive)
+  (delete-horizontal-space)
+  (if (and
+	    (string= (string (preceding-char)) "{")
+		(not (line-only-left-brace)))
+    (progn
+	  (backward-char 1)
+	  (newline-and-indent)
+	  (forward-char 1)
+    )
+	'nil)
+)
+
+(defun newline-with-drop-brace ()
+  "If the character before the point is a brace, drop it to the next"
+  "line before 'newline-and-indent"
+  (interactive)
+  (drop-preceding-brace)
+  (newline-and-indent)
+)

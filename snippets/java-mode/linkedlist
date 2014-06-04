@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: linkedlist
+# key: <>LL
+# --
+${1:List}<$4> ${2:list} = LinkedList<$3>($5);
+$0

@@ -1,0 +1,11 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: defmain
+# key: defmain
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# --
+def main():
+    pass $0
+
+
+if __name__ == '__main__':
+    main()

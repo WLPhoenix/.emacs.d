@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: hashset
+# key: <>HS
+# --
+${1:Set}<$4> ${2:set} = HashSet<$3>($5);
+$0

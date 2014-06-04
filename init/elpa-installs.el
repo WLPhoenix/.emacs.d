@@ -10,6 +10,7 @@
     tree-mode
     undo-tree
     windata
+	yasnippet
     xclip
 
     ;; Color themes
@@ -26,12 +27,12 @@
     ;; Java
     cedit
     semantic
+	java-snippets
     malabar-mode
 
     ;; Assorted languages
     groovy-mode
     haskell-mode
-
     zossima ;ruby
 ))
 
