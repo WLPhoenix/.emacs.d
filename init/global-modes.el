@@ -18,3 +18,8 @@
 (when (require 'ido) (ido-mode t))
 (when (require 'highlight-parentheses)
   (global-highlight-parentheses-mode t)))
+
+(when (require 'exec-path-from-shell)
+  (exec-path-from-shell-initialize)
+  (exec-path-from-shell-copy-env "WORKON_HOME")
+)

@@ -26,7 +26,8 @@
     (while (search-forward "\\\"" nil t) (replace-match "\"" nil t))
     (goto-char (point-min))
     (while (search-forward "\\'" nil t) (replace-match "'" nil t))
-))
+  )
+)
 
 (defun hang-braces ()
   "Move all braces at the end of a occupied line to the next line"
@@ -37,7 +38,8 @@
 	(while moreLines
 	  (end-of-line)
 	  (drop-preceding-brace)
-	  (setq moreLines (= 0 (forward-line 1))))
+	  (setq moreLines (= 0 (forward-line 1)))
+    )
   )
 )
 

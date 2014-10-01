@@ -27,9 +27,9 @@
 
 ;;; General
 (load-if-exists "~/.emacs.d/init/elpa-installs.el")
+(load-if-exists "~/.emacs.d/init/global-modes.el")
 (load-if-exists "~/.emacs.d/init/movement.el")
 (load-if-exists "~/.emacs.d/init/formatting.el")
-(load-if-exists "~/.emacs.d/init/global-modes.el")
 (load-if-exists "~/.emacs.d/init/bindings.el")
 (load-if-exists "~/.emacs.d/init/appearance.el")
 

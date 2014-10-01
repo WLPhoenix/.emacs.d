@@ -4,6 +4,7 @@
 (setq require-packages
   '(
     ;; General
+    exec-path-from-shell
     ido
     highlight
     highlight-parentheses
